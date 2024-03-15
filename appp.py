@@ -14,7 +14,7 @@ def token_required(func):
         if not token:
             return jsonify({'Alert!':'Token is missing!'})
         try:
-            payload = jwt.decode(token, app.config['SECRET_KEY'])
+            payload = jwt.encode(token, app.config['SECRET_KEY'])
         except:
             return jsonify({'Alert!':'Invalid Token!'})
     return decorated
@@ -44,11 +44,14 @@ def login():
         session['logged_in'] = True
         token = jwt.encode(
             {
-            'user':request.form['username'],
-            'expiration': str(datetime.utcnow() + timedelta(seconds=120 ))
-        }, 
-        app.config['SECRET_KEY'])
-        return jsonify({'token': token.decode('utf-8')})
+                'user': request.form['username'],
+                'expiration': str(datetime.utcnow() + timedelta(seconds=120))
+            }, 
+            app.config['SECRET_KEY']
+        )
+        return jsonify({'token': token})
+
+
     else:
         return make_response('Unable to verify', 403, {'WWW-Authenticate' : 'Basic realm: "Authentication Failed!"'})
 
