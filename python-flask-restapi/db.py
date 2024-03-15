@@ -19,16 +19,23 @@ class Database:
     def create_task(self, task):
         cursor = self.conn.cursor()
         cursor.execute(
-            f"INSERT INTO tasks (name, description) VALUES ('{task['name']}', '{task['description']}');"
+            f"INSERT INTO tasks (title, description, due_date, status, usuario) VALUES ('{task['title']}', '{task['description']}', '{task['due_date']}', '{task['status']}', '{task['usuario']}');"
         )
         self.conn.commit()
         cursor.close()
         return task
 
-    def update_task(self, request_task):
+    def get_task_by_id(self, request_task_id):
+        cursor = self.conn.cursor()
+        cursor.execute(f"SELECT * FROM tasks WHERE id = {request_task_id};")
+        data = cursor.fetchall()
+        cursor.close()
+        return data
+
+    def update_task(self, request_task, request_task_id):
         cursor = self.conn.cursor()
         cursor.execute(
-            f"UPDATE tasks SET name = '{request_task['name']}', description = '{request_task['description']}' WHERE id = {request_task['id']};"
+            f"UPDATE tasks SET title = '{request_task['title']}', description = '{request_task['description']}', due_date = '{request_task['due_date']}', status = '{request_task['status']}', usuario = '{request_task['usuario']}' WHERE id = {request_task_id};"
         )
         self.conn.commit()
         cursor.close()

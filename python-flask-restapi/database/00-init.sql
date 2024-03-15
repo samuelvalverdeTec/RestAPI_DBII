@@ -4,7 +4,10 @@ CREATE DATABASE tasks;
 
 CREATE TABLE tasks (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  description TEXT NOT NULL
+  title VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  due_date DATE NOT NULL,
+  status VARCHAR(10) NOT NULL,
+  usuario INT NOT NULL
   );
 

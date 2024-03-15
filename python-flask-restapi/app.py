@@ -35,10 +35,15 @@ def create_task():
     return appService.create_task(task)
 
 
-@app.route("/api/tasks", methods=["PUT"])
-def update_task():
+@app.route("/api/tasks/<int:id>")
+def task_by_id(id):
+    return appService.get_task_by_id(str(id))
+
+
+@app.route("/api/tasks/<int:id>", methods=["PUT"])
+def update_task(id):
     request_data = request.get_json()
-    return appService.update_task(request_data)
+    return appService.update_task(request_data, str(id))
 
 
 @app.route("/api/tasks/<int:id>", methods=["DELETE"])
